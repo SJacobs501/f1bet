@@ -2,42 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="143e6ad0-54bd-47d2-817d-5692d69db801" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/migrations/0003_auto_20180103_2146.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap-grid.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap-grid.css.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap-grid.min.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap-grid.min.css.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap-reboot.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap-reboot.css.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap-reboot.min.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap-reboot.min.css.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap.css.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap.min.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/bootstrap.min.css.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/mycss.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/css/style.css" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/images/titlef1.png" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/bootstrap.bundle.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/bootstrap.bundle.js.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/bootstrap.bundle.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/bootstrap.bundle.min.js.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/bootstrap.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/bootstrap.js.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/bootstrap.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/bootstrap.min.js.map" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/holder.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/myjava.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/myjs.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/static/js/popper.min.js" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/f1better/templates/details_track.html" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change beforePath="$PROJECT_DIR$/f1bet/settings.py" afterPath="$PROJECT_DIR$/f1bet/settings.py" />
-      <change beforePath="$PROJECT_DIR$/f1better/models.py" afterPath="$PROJECT_DIR$/f1better/models.py" />
-      <change beforePath="$PROJECT_DIR$/f1better/templates/index.html" afterPath="$PROJECT_DIR$/f1better/templates/index.html" />
-      <change beforePath="$PROJECT_DIR$/f1better/urls.py" afterPath="$PROJECT_DIR$/f1better/urls.py" />
-      <change beforePath="$PROJECT_DIR$/f1better/views.py" afterPath="$PROJECT_DIR$/f1better/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -48,7 +13,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/f1better/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="200">
@@ -70,11 +35,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/f1bet/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="95">
-              <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+            <state relative-caret-position="470">
+              <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -107,15 +72,15 @@
       <list>
         <option value="$PROJECT_DIR$/f1better/admin.py" />
         <option value="$PROJECT_DIR$/f1better/urls.py" />
-        <option value="$PROJECT_DIR$/f1bet/settings.py" />
         <option value="$PROJECT_DIR$/f1better/models.py" />
         <option value="$PROJECT_DIR$/f1better/views.py" />
+        <option value="$PROJECT_DIR$/f1bet/settings.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="89" />
-    <option name="y" value="396" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="173" />
+    <option name="y" value="420" />
     <option name="width" value="1528" />
     <option name="height" value="910" />
   </component>
@@ -192,7 +157,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="89" y="396" width="1528" height="910" extended-state="1" />
+    <frame x="173" y="420" width="1528" height="910" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28042328" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -251,14 +216,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/f1bet/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="102" column="0" lean-forward="false" selection-start-line="102" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/f1better/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="575">
@@ -274,6 +231,14 @@
           <folding>
             <element signature="e#0#67#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/f1bet/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="28" column="0" lean-forward="true" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
