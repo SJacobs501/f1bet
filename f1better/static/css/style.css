@@ -1,0 +1,43 @@
+.row{
+color: white;
+}
+
+.table-hover tbody tr:hover td, .tabl-hover tbody tr:hover th{
+	background-color: red;
+}
+
+.nav2 {
+	height: 40px;
+	background: #585858;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.nav2 ul{
+	margin: 0;
+	padding: 0;
+}
+
+.nav2 ul li {
+	list-style: none;
+}
+
+.nav2 ul li a {
+	text-decoration: none;
+	float: left;
+	display: block;
+	padding: 10px 20px;
+	color: white
+}
+
+.nav2 ul li a:hover{
+	color: #BDBDBD;
+}
+
+.content {
+    width: 100%;
+}
+
+.text {
+    width: 50%;
+}

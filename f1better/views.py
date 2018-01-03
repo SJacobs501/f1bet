@@ -15,6 +15,18 @@ def index(request):
     context = {'tracks': tracks}
     return render(request, "index.html", context)
 
+def details_track(request, track_id):
+    track = Track.objects.get(id=track_id)
+
+    # Select driver_ids from track_drivers by track id.
+    track_drivers = TrackDriver.objects.filter(track_id=track.id).values('driver')
+
+    # Get the drivers for this track.
+    drivers = Driver.objects.filter(id__in=[track_drivers])
+
+    context = {'track': track, 'drivers': drivers}
+    return render(request, "details_track.html", context)
+
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)

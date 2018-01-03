@@ -8,6 +8,9 @@ urlpatterns = [
 
     # /f1better/index.html
     path('index.html', views.index, name='index'),
+    path('details_track/<int:track_id>/', views.details_track, name='details_track'),
+
+
 
     path('register', views.register, name='register'),
     path('register.html', views.register, name='register'),
