@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="143e6ad0-54bd-47d2-817d-5692d69db801" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change beforePath="$PROJECT_DIR$/f1better/models.py" afterPath="$PROJECT_DIR$/f1better/models.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -98,8 +97,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="34" />
-    <option name="y" value="447" />
+    <option name="x" value="104" />
+    <option name="y" value="461" />
     <option name="width" value="1472" />
     <option name="height" value="910" />
   </component>
@@ -176,7 +175,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="34" y="447" width="1472" height="910" extended-state="0" />
+    <frame x="104" y="461" width="1472" height="910" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2912088" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
