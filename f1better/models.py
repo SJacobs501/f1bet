@@ -33,7 +33,7 @@ class Bet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} bet ${} on {} at {}'.format(self.user, self.money, self.driver, self.track)
+        return '{} bet ${} on {}'.format(self.user, self.money, self.driver)
 
 #todo: make use of this
 class UserBalance(models.Model):
