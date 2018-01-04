@@ -8,6 +8,7 @@ from django.contrib.auth import logout as django_logout
 from django.contrib import messages
 from django.core.validators import ValidationError
 from django.contrib.auth.models import User
+from .forms import BetForm
 
 # Create your views here.
 def index(request):
@@ -24,8 +25,39 @@ def details_track(request, track_id):
     # Get the drivers for this track.
     drivers = Driver.objects.filter(id__in=[track_drivers])
 
-    context = {'track': track, 'drivers': drivers}
+    bets = Bet.objects.filter(track=track_id)
+
+    context = {
+        'track': track,
+        'drivers': drivers,
+        'bets': bets
+    }
     return render(request, "details_track.html", context)
+
+def make_bet(request, track_id):
+    # if not logged in, go to login page.
+    if not request.user.is_authenticated:
+        return render(request, 'login.html')
+    else:
+        if request.method == 'POST':
+            track = Track.objects.get(id=track_id)
+
+            try:
+                money = request.POST['money']
+                driver_id = request.POST['driver']
+                driver = Driver.objects.get(id=driver_id)
+                user = request.user
+            except:
+                return redirect('details_track', track_id=track_id)
+
+            # check if user exists
+            if user is None:
+                return render(request, 'details_track.html')
+
+            bet = Bet(money=money, track=track, driver=driver, user=user)
+            bet.save()
+
+        return redirect('details_track', track_id=track_id)
 
 def register(request):
     if request.method == 'POST':

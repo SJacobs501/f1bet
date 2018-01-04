@@ -27,5 +27,15 @@ class TrackDriver(models.Model):
 class Bet(models.Model):
     # is a bet finished? (meaning we know the result)
     finished = models.BooleanField(default=False)
+    money = models.DecimalField(decimal_places=2, max_digits=8)
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} bet ${} on {} at {}'.format(self.user, self.money, self.driver, self.track)
+
+#todo: make use of this
+class UserBalance(models.Model):
+    balance = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)

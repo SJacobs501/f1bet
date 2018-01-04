@@ -10,7 +10,7 @@ urlpatterns = [
     path('index.html', views.index, name='index'),
     path('details_track/<int:track_id>/', views.details_track, name='details_track'),
 
-
+    path('make_bet/<int:track_id>/', views.make_bet, name='make_bet'),
 
     path('register', views.register, name='register'),
     path('register.html', views.register, name='register'),

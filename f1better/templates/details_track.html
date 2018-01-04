@@ -49,74 +49,57 @@
                 <img src="{{ track.image }}" alt="Lights" style="width:35%">
             </div>
         </section>
-
+		
         <div class="row justify-content-around">
             <div class="col-sm-6">
-                <p align="center">Drivers</p>
-                <div class="input-group" style="width:60%;margin-left:20%; margin-right:10%">
-                    <input type="text" class="form-control" aria-label="Amount">
-                    <div class="input-group-append">
-                        <span class="input-group-text">$</span>
-                        <span class="input-group-text">0.00</span>
-                    </div>
-				</div>
-                <br>
-				
-				
-				
-				
-				
+				<br>
+                <p align="center">Make your bet!</p>
                 
-				{% for driver in drivers %}
 				
-				<div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampledriver" id={{ driver.id }} value={{ driver.id }}>
-                    <label class="form-check-label" for={{ driver.id }}>
-                        {{ driver }}
-                    </label>
-                </div>
+				{% if error_message %}
+					<p><strong>{{ error_message }}</strong></p>
+				{% endif %}
+								
+				<form action="{% url 'make_bet' track.id %}" method="post">
+					{% csrf_token %}
+						
+					<div class="input-group" style="width:60%;margin-left:20%; margin-right:10%">
+						<input type="text" class="form-control" aria-label="Amount" name="money">
+						<div class="input-group-append">
+							<span class="input-group-text">$</span>
+							<span class="input-group-text">Balance: 0.00</span>
+						</div>
+					</div>
+					
+					<br>
+					
+					{% for driver in drivers %}
+					<div class="form-check">
+						<input class="form-check-input" type="radio" name="driver" id={{ driver.id }} value={{ driver.id }}>
+						<label class="form-check-label" for={{ driver.id }}>
+							{{ driver }}
+						</label>
+					</div>
+					{% endfor %}
+					
+					<br>
+					<center><button type="submit" class="btn btn-success">Confirm</button></center>
+					<br>
+				</form>
 				
-				{% endfor %}
+
 	
-				<br>
-				<center><button type="button" class="btn btn-success">Confirm</button></center>
-				<br>
-				
-				<!--
-				<div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampledriver" id="driver1" value="option1">
-                    <label class="form-check-label" for="driver1">
-                        Lewis Hamilton
-                    </label>
-                </div>
-				
-                <div class="form-check">
-
-                    <input class="form-check-input" type="radio" name="exampledriver" id="driver2" value="option2">
-                    <label class="form-check-label" for="driver2">
-                        Sebastian Vettel
-                    </label>
-
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampledriver" id="driver2" value="option2">
-                    <label class="form-check-label" for="driver2">
-                        Valtteri Bottas
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="exampledriver" id="driver2" value="option2">
-                    <label class="form-check-label" for="driver2">
-                        Kimi Räikkönen
-                    </label>
-                </div>
-				-->
-				
-				
             </div>
 			
             <div class="col-sm-6">
-                <p align="center">Bets by other users</p>
+				<br>
+                <p align="center">All bets</p>
+				<center>
+				{% for bet in bets %}
+					{{ bet }}
+					<br>
+				{% endfor %}
+				</center>
             </div>
         </div>
 
