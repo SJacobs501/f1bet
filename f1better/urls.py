@@ -18,4 +18,12 @@ urlpatterns = [
     path('login', views.login, name='login'),
 
     path('logout', views.logout, name='logout'),
+
+    path('manage', views.manage, name='manage'),
+
+    path('add_race', views.add_race, name='add_race'),
+    path('add_driver', views.add_driver, name='add_driver'),
+    path('add_track', views.add_track, name='add_track'),
+    path('remove_driver', views.remove_driver, name='remove_driver'),
+    path('remove_track', views.remove_track, name='remove_track'),
 ]
