@@ -30,10 +30,28 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about_us' %}">About us</a>
                 </li>
+
+                {% if user.is_authenticated and user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'manage' %}">Manage</a>
+                </li>
+                {% endif %}
             </ul>
-            <span class="form-inline my-2 my-lg-0">
-                <a class="btn btn-secondary" href="logout" role="button">Logout</a>
-            </span>
+
+            {% if user.is_authenticated %}
+                <span class="form-inline my-2 my-lg-0">
+                    <a class="btn btn-secondary" href="{% url 'logout' %}" role="button">Logout</a>
+                </span>
+            {% else %}
+                <span class="form-inline my-2 my-lg-0">
+                    <a class="btn btn-secondary" href="{% url 'register' %}" role="button">Register</a>
+                </span>
+
+                <span class="form-inline my-2 my-lg-0" style="padding-left:10px">
+                    <a class="btn btn-secondary" href="{% url 'login' %}" role="button">Login</a>
+                </span>
+            {% endif %}
+
         </div>
     </nav>
 

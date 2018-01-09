@@ -1,4 +1,3 @@
-from django.http import Http404, HttpResponse, HttpResponseRedirect
 from .models import *
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -6,17 +5,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.contrib import messages
-from django.core.validators import ValidationError
-from django.contrib.auth.models import User
 from .forms import AddDriverForm, AddTrackForm
-
 
 # Create your views here.
 def races(request):
     tracks = Track.objects.all()
     context = {'tracks': tracks}
     return render(request, "races.html", context)
-
 
 def details_track(request, track_id):
     track = Track.objects.get(id=track_id)
@@ -36,11 +31,10 @@ def details_track(request, track_id):
     }
     return render(request, "details_track.html", context)
 
-
 def make_bet(request, track_id):
     # if not logged in, go to login page.
     if not request.user.is_authenticated:
-        return render(request, 'login.html')
+        return redirect('login')
     else:
         if request.method == 'POST':
             track = Track.objects.get(id=track_id)
@@ -62,7 +56,6 @@ def make_bet(request, track_id):
 
         return redirect('details_track', track_id=track_id)
 
-
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -72,11 +65,10 @@ def register(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             auth_login(request, user)
-            return redirect('index')
+            return redirect('races')
     else:
         form = UserCreationForm()
     return render(request, 'register.html', {'form': form})
-
 
 def login(request):
     if request.method == 'POST':
@@ -97,21 +89,23 @@ def login(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
-
 def logout(request):
     django_logout(request)
-    return redirect('login_home')
-
+    return redirect('races')
 
 def help(request):
     return render(request, 'help.html')
 
-
 def about_us(request):
     return render(request, 'about_us.html')
 
-
 def manage(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not user.is_staff:
+        return redirect('races')
+
     races = TrackDriver.objects.all()
     tracks = Track.objects.all()
     drivers = Driver.objects.all()
@@ -127,6 +121,12 @@ def manage(request):
     return render(request, 'manage.html', context)
 
 def add_race(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not user.is_staff:
+        return redirect('races')
+
     if request.method == 'POST':
         track_id = request.POST.get("track")
         track = Track.objects.get(id=track_id)
@@ -140,6 +140,12 @@ def add_race(request):
     return redirect('manage')
 
 def add_driver(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not user.is_staff:
+        return redirect('races')
+
     if request.method == 'POST':
         form = AddDriverForm(request.POST)
         if form.is_valid():
@@ -152,6 +158,12 @@ def add_driver(request):
     return redirect('manage')
 
 def add_track(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not user.is_staff:
+        return redirect('races')
+
     if request.method == 'POST':
         form = AddTrackForm(request.POST)
         if form.is_valid():
@@ -164,6 +176,12 @@ def add_track(request):
     return redirect('manage')
 
 def remove_driver(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not user.is_staff:
+        return redirect('races')
+
     if request.method == 'POST':
         driver_id = request.POST.get("driver_to_remove")
         if driver_id is None:
@@ -173,6 +191,12 @@ def remove_driver(request):
     return redirect('manage')
 
 def remove_track(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not user.is_staff:
+        return redirect('races')
+
     if request.method == 'POST':
         track_id = request.POST.get("track_to_remove")
         if track_id is None:

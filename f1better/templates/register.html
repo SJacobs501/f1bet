@@ -1,14 +1,50 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
-    <h2>Register</h2>
+{% extends 'base.html' %}
+{% load staticfiles %}
 
-    <form method="POST">
-        {% csrf_token %} {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+{% block content %}
+    <section id="toptext" class="jumbotron text-center ">
+        <div class="container">
+            <h1 class="jumbotron-heading">Register Here!</h1>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <br>
+
+                {% for message in form.username.errors %}
+                <div class="alert alert-danger">
+                    <a class="close" href="#" data-dismiss="alert"></a>
+                    username: {{ message }}
+                </div>
+                {% endfor %}
+
+                {% for message in form.password1.errors %}
+                <div class="alert alert-danger">
+                    <a class="close" href="#" data-dismiss="alert"></a>
+                    pass1: {{ message }}
+                </div>
+                {% endfor %}
+
+                {% for message in form.password2.errors %}
+                <div class="alert alert-danger">
+                    <a class="close" href="#" data-dismiss="alert"></a>
+                    pass2: {{ message }}
+                </div>
+                {% endfor %}
+
+                <label for="id_username"></label>
+                <input type="text" name="username" autofocus="" maxlength="254" required="" id="id_username" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+
+                <label for="password1"></label>
+                <input type="password" name="password1" required="" id="password1" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+
+                <label for="password2"></label>
+                <input type="password" name="password2" required="" id="password2" class="form-control" placeholder="Password confirmation" aria-describedby="basic-addon1">
+
+                <br>
+                <button class="btn btn-primary" type="submit">Register</button>
+                <br>
+            </form>
+        </div>
+    </section>
+{% endblock content %}
