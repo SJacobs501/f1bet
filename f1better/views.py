@@ -11,10 +11,10 @@ from django.contrib.auth.models import User
 from .forms import BetForm
 
 # Create your views here.
-def index(request):
+def races(request):
     tracks = Track.objects.all()
     context = {'tracks': tracks}
-    return render(request, "index.html", context)
+    return render(request, "races.html", context)
 
 def details_track(request, track_id):
     track = Track.objects.get(id=track_id)
@@ -74,6 +74,8 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 def login(request):
+    if request.user.is_authenticated():
+        return redirect('races')
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
         username = request.POST['username']
@@ -83,7 +85,7 @@ def login(request):
         if user is not None:
             if user.is_active:
                 auth_login(request, user)
-                return redirect('index')
+                return redirect('races')
         else:
             messages.error(request, 'Invalid username or password')
             return redirect('login')
@@ -94,4 +96,10 @@ def login(request):
 
 def logout(request):
     django_logout(request)
-    return redirect('index')
+    return redirect('login_home')
+
+def help(request):
+    return render(request, 'help.html')
+
+def about_us(request):
+    return render(request, 'about_us.html')

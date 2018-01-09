@@ -2,7 +2,13 @@
 {% load staticfiles %}
 
 {% block content %}
-
+<main role="main">
+    <section id="toptext" class="jumbotron text-center ">
+        <div class="container">
+            <h1 class="jumbotron-heading">Make your F1 bets here!</h1>
+            <p>Current races to bet on: </p>
+        </div>
+    </section>
 <div class="taskContainer" align="center">
     <div class="row" id="targetRow" align="center">
 {% for track in tracks %}
@@ -24,4 +30,5 @@
 {% endfor %}
 </div>
 </div>
+    </main>
 {% endblock content %}
