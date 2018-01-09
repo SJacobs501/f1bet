@@ -22,8 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # include f1better urls
-    path('f1better/', include('f1better.urls')),
-
-    # Redirect empty url to f1better app.
-    path('', RedirectView.as_view(url='/f1better/')),
+    path('', include('f1better.urls')),
 ]

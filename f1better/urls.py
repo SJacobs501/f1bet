@@ -1,22 +1,20 @@
-from django.urls import path, re_path
+from django.conf.urls import url
+from django.contrib import admin
 from . import views
+
 
 urlpatterns = [
 
     # /home/
-    path('', views.index, name='index'),
+    url(r'^$', views.index, name='index'),
 
-    # /f1better/index.html
-    path('index.html', views.index, name='index'),
-    path('details_track/<int:track_id>/', views.details_track, name='details_track'),
+    url(r'^details_track/<int:track_id>/$', views.details_track, name='details_track'),
 
-    path('make_bet/<int:track_id>/', views.make_bet, name='make_bet'),
+    url(r'^make_bet/<int:track_id>/$', views.make_bet, name='make_bet'),
 
-    path('register', views.register, name='register'),
-    path('register.html', views.register, name='register'),
+    url(r'^register/$', views.register, name='register'),
 
-    path('login', views.login, name='login'),
-    path('login.html', views.login, name='login'),
+    url(r'^login/$', views.login, name='login'),
 
-    path('logout', views.logout, name='logout'),
+    url(r'^logout/$', views.logout, name='logout'),
 ]
