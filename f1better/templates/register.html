@@ -14,21 +14,21 @@
                 {% for message in form.username.errors %}
                 <div class="alert alert-danger">
                     <a class="close" href="#" data-dismiss="alert"></a>
-                    username: {{ message }}
+                    {{ message }}
                 </div>
                 {% endfor %}
 
                 {% for message in form.password1.errors %}
                 <div class="alert alert-danger">
                     <a class="close" href="#" data-dismiss="alert"></a>
-                    pass1: {{ message }}
+                    {{ message }}
                 </div>
                 {% endfor %}
 
                 {% for message in form.password2.errors %}
                 <div class="alert alert-danger">
                     <a class="close" href="#" data-dismiss="alert"></a>
-                    pass2: {{ message }}
+                    {{ message }}
                 </div>
                 {% endfor %}
 
