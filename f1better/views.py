@@ -74,8 +74,6 @@ def register(request):
     return render(request, 'register.html', {'form': form})
 
 def login(request):
-    if request.user.is_authenticated():
-        return redirect('races')
     if request.method == 'POST':
         form = AuthenticationForm(request.POST)
         username = request.POST['username']
