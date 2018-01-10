@@ -4,6 +4,9 @@
     overflow: hidden;
 }
 
+.jumbotron {
+  background-color: #c2c7cc;
+}
 
 .topnav a {
     float: left;
@@ -25,9 +28,17 @@
     background-color: #4CAF50;
     color: white;
 }
+.loggedinas{
+  padding-right: 30px;
+}
+
+.jumbohelp{
+  margin-top: 20px;
+}
 
 #body {
   background-color:#efefef
+
 }
 
 #toptext {

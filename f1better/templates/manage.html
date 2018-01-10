@@ -2,9 +2,9 @@
 <main role="main">
     <main role="main">
 
-        <section id="AddBet" class="jumbotron text-center ">
+        <section id="AddBet" class="text-center ">
             <div class="borderline">
-                <div class="container">
+                <div class="container jumbotron jumbohelp">
                     <h1 class="jumbotron-heading">Add a new race</h1>
                     <br>
 
@@ -51,7 +51,7 @@
 
                         <br>
                         <br>
-                        <input type="submit" value="Submit" class="btn btn-success" />
+                        <input type="submit" value="Add" class="btn btn-success" />
                     </form>
                     <br>
                     <br>
@@ -60,7 +60,7 @@
             </div>
             <br>
             <div class="borderline">
-                <div class="container">
+                <div class="container jumbotron">
                     <h1 class="jumbotron-heading">Add a new driver</h1>
 
                     <b>Current drivers:</b>
@@ -75,7 +75,7 @@
                         {% csrf_token %}
                         {{ form_add_driver }}
                         <br>
-                        <input type="submit" value="Submit" class="btn btn-success" />
+                        <input type="submit" value="Add" class="btn btn-success" />
                     </form>
 
                     <br>
@@ -85,31 +85,9 @@
             </div>
 
             <br>
-            <div id="borderline">
-                <div class="container">
-                    <h1 class="jumbotron-heading">Remove a driver</h1>
-                    <br>
-
-                    <form action="remove_driver" method="post">
-                        {% csrf_token %}
-                        <select class="custom-select my-1 mr-sm-2" name="driver_to_remove">
-                            <option value="" disabled selected>Choose a driver</option>
-                            {% for driver in drivers %}
-                            <option value="{{ driver.id }}">{{ driver }}</option>
-                            {% endfor %}
-                        </select>
-                        <br>
-                        <br>
-                        <input type="submit" value="Submit" class="btn btn-success" />
-                    </form>
-
-                </div>
-                <br>
-                <br>
-            </div>
             <br>
             <div class="borderline">
-                <div class="container">
+                <div class="container jumbotron">
                     <h1 class="jumbotron-heading">Add a new track</h1>
 
                     <b>Current tracks:</b>
@@ -124,7 +102,7 @@
                         {% csrf_token %}
                         {{ form_add_track }}
                         <br>
-                        <input type="submit" value="Submit" class="btn btn-success" />
+                        <input type="submit" value="Add" class="btn btn-success" />
                     </form>
 
                     <br>
@@ -134,25 +112,48 @@
                 </div>
             </div>
             <br>
+            <hr />
+            <div class="borderline">
+                <div class="container jumbotron jumbohelp">
+                    <h1 class="jumbotron-heading">Remove a driver</h1>
+                    <br>
 
-            <div class="container">
-                <h1 class="jumbotron-heading">Remove a track</h1>
+                    <form action="remove_driver" method="post">
+                        {% csrf_token %}
+                        <select class="custom-select my-1 mr-sm-2" name="driver_to_remove">
+                            <option value="" disabled selected>Choose a driver</option>
+                            {% for driver in drivers %}
+                            <option value="{{ driver.id }}">{{ driver }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <input type="submit" value="Remove" class="btn btn-danger" />
+                    </form>
+
+                </div>
                 <br>
-
-                <form action="remove_track" method="post">
-                    {% csrf_token %}
-                    <select class="custom-select my-1 mr-sm-2" name="track_to_remove">
-                        <option value="" disabled selected>Choose a track</option>
-                        {% for track in tracks %}
-                        <option value="{{ track.id }}">{{ track }}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                    <br>
-                    <input type="submit" value="Submit" class="btn btn-success" />
-                </form>
+                <br>
             </div>
+            <div class="borderline">
+              <div class="container jumbotron">
+                  <h1 class="jumbotron-heading">Remove a track</h1>
+                  <br>
 
+                  <form action="remove_track" method="post">
+                      {% csrf_token %}
+                      <select class="custom-select my-1 mr-sm-2" name="track_to_remove">
+                          <option value="" disabled selected>Choose a track</option>
+                          {% for track in tracks %}
+                          <option value="{{ track.id }}">{{ track }}</option>
+                          {% endfor %}
+                      </select>
+                      <br>
+                      <br>
+                      <input type="submit" value="Remove" class="btn btn-danger" />
+                  </form>
+              </div>
+            </div>
         </section>
     </main>
 </main>
