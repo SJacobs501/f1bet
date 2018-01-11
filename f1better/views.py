@@ -225,8 +225,10 @@ def add_track(request):
                 return redirect('manage')
 
             image = form.cleaned_data['image']
-
-            track = Track(name=name, image=image)
+            
+            track = Track(name=name)
+            if image:
+                track.image=image
             track.save()
     return redirect('manage')
 
