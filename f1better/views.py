@@ -6,6 +6,7 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as django_logout
 from django.contrib import messages
 from .forms import AddDriverForm, AddTrackForm
+from collections import defaultdict
 
 # Create your views here.
 def races(request):
@@ -106,12 +107,23 @@ def manage(request):
     if not user.is_staff:
         return redirect('races')
 
-    races = TrackDriver.objects.all()
+    message = request.session.get('add_race_error_message')
+    if message:
+        del request.session['add_race_error_message']
+
+    track_drivers = TrackDriver.objects.all()
+
+    races = defaultdict(list)
+    for race in track_drivers:
+        races[race.track].append(race.driver)
+    races.default_factory = None
+
     tracks = Track.objects.all()
     drivers = Driver.objects.all()
     form_add_driver = AddDriverForm()
     form_add_track = AddTrackForm()
     context = {
+        'message': message,
         'races': races,
         'tracks': tracks,
         'drivers': drivers,
@@ -129,6 +141,17 @@ def add_race(request):
 
     if request.method == 'POST':
         track_id = request.POST.get("track")
+
+        if track_id == '0':
+            request.session['add_race_error_message'] = "You did not choose a track!"
+            return redirect('manage')
+
+        # check if there's already a race with this track.
+        trackdrivers = TrackDriver.objects.filter(track_id=track_id)
+        if trackdrivers.count() > 0:
+            request.session['add_race_error_message'] = "There's already a race going on for this track!"
+            return redirect('manage')
+
         track = Track.objects.get(id=track_id)
         driver_ids = request.POST.getlist('drivers')
 

@@ -11,25 +11,29 @@
                     <b>Current races:</b>
                     <br>
                     <br>
-                    {% regroup races by track as races_grouped %}
-                    {% for race in races_grouped %}
-                    <b>Track:</b> {{ race.grouper }}
+
+                    {% for key, value_list in races.items %}
+                        <b>Track: </b>{{ key }}:
                         <br>
-                        <b>Drivers:</b>
-                        {% for trackdriver in race.list %}
-                            {%if not forloop.first%}
-                            ,
-                            {% endif %}
-                            {{ trackdriver.driver }}
+                        <b>Drivers: </b>
+                        {% for value in value_list %}
+                            {{ value }},
                         {% endfor %}
                         <br>
                         <br>
                     {% endfor %}
 
+                    {% if message %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert"></a>
+                        {{ message }}
+                    </div>
+                    {% endif %}
+
                     <form action="add_race" method="post">
                         {% csrf_token %}
                         <select class="custom-select my-1 mr-sm-2" name="track">
-                            <option selected>Choose a track</option>
+                            <option value="0" selected>Choose a track</option>
 
                             {% for track in tracks %}
                             <option value="{{ track.id }}">{{ track }}</option>
