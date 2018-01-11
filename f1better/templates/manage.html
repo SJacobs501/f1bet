@@ -10,18 +10,18 @@
 
                     <b>Current races:</b>
                     <br>
-                    <br>
 
-                    {% for key, value_list in races.items %}
-                        <b>Track: </b>{{ key }}:
-                        <br>
-                        <b>Drivers: </b>
-                        {% for value in value_list %}
-                            {{ value }},
-                        {% endfor %}
-                        <br>
+                    {% if not races %}
+                    There are no races at the moment.
+                    <br>
+                    {% endif %}
+
+                    {% for race in races %}
+                        {{ race }}{% if not forloop.last %},{% endif %}
                         <br>
                     {% endfor %}
+
+                    <br>
 
                     {% if add_race_error_message %}
                     <div class="alert alert-danger">
@@ -41,10 +41,16 @@
 
                         </select>
 
+                        <input type="text" name="event" class="form-control" placeholder="Event name">
+                        <input type="number" name="multiplier" class="form-control" step="0.1" value="1">
                         <br>
                         <br>
                         <h6>Select drivers for race</h6>
                         <!-- Use for loop to repeat this so all drivers get this and put the name of the driver in the label section--->
+
+                        {% if not drivers %}
+                            There are no drivers yet, add a new driver below!
+                        {% endif %}
 
                         {% for driver in drivers %}
                         <div class="form-check form-check-inline" style="margin-left:0.75rem">
@@ -69,6 +75,12 @@
 
                     <b>Current drivers:</b>
                     <br>
+
+                    {% if not drivers %}
+                        There are no drivers yet.
+                        <br>
+                    {% endif %}
+
                     {% for driver in drivers %}
                     {{ driver }}
                     <br>
@@ -96,11 +108,25 @@
 
                     <b>Current tracks:</b>
                     <br>
+
+                    {% if not tracks %}
+                        There are no tracks yet.
+                        <br>
+                    {% endif %}
+
                     {% for track in tracks %}
                     {{ track }}
                     <br>
                     {% endfor %}
+
                     <br>
+
+                    {% if add_track_error_message %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert"></a>
+                        {{ add_track_error_message }}
+                    </div>
+                    {% endif %}
 
                     <form action="add_track" method="post">
                         {% csrf_token %}
@@ -117,6 +143,34 @@
             </div>
             <br>
             <hr />
+            <div class="borderline">
+                <div class="container jumbotron jumbohelp">
+                    <h1 class="jumbotron-heading">Remove a race</h1>
+                    <br>
+
+                    {% if remove_race_error_message %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert"></a>
+                        {{ remove_race_error_message }}
+                    </div>
+                    {% endif %}
+
+                    <form action="remove_race" method="post">
+                        {% csrf_token %}
+                        <select class="custom-select my-1 mr-sm-2" name="race_to_remove">
+                            <option value="" disabled selected>Choose a race</option>
+                            {% for race in races %}
+                            <option value="{{ race.id }}">{{ race }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <input type="submit" value="Remove" class="btn btn-danger" />
+                    </form>
+
+                </div>
+                <br>
+            </div>
             <div class="borderline">
                 <div class="container jumbotron jumbohelp">
                     <h1 class="jumbotron-heading">Remove a driver</h1>

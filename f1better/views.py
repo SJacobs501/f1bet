@@ -10,35 +10,37 @@ from collections import defaultdict
 
 # Create your views here.
 def races(request):
-    tracks = Track.objects.all()
-    context = {'tracks': tracks}
+    races = Race.objects.all()
+    context = {'races': races}
     return render(request, "races.html", context)
 
-def details_track(request, track_id):
-    track = Track.objects.get(id=track_id)
+def details_track(request, race_id):
+    race = Race.objects.get(id=race_id)
 
     # Select driver_ids from track_drivers by track id.
-    track_drivers = TrackDriver.objects.filter(track_id=track.id).values('driver')
+    race_drivers = RaceDriver.objects.filter(race=race).values('driver')
+
+    #track = race.track
 
     # Get the drivers for this track.
-    drivers = Driver.objects.filter(id__in=[track_drivers])
+    drivers = Driver.objects.filter(id__in=[race_drivers])
 
-    bets = Bet.objects.filter(track=track_id)
+    bets = Bet.objects.filter(race=race_id)
 
     context = {
-        'track': track,
+        'race': race,
         'drivers': drivers,
         'bets': bets
     }
     return render(request, "details_track.html", context)
 
-def make_bet(request, track_id):
+def make_bet(request, race_id):
     # if not logged in, go to login page.
     if not request.user.is_authenticated:
         return redirect('login')
     else:
         if request.method == 'POST':
-            track = Track.objects.get(id=track_id)
+            race = Race.objects.get(id=race_id)
 
             try:
                 money = request.POST['money']
@@ -46,16 +48,16 @@ def make_bet(request, track_id):
                 driver = Driver.objects.get(id=driver_id)
                 user = request.user
             except:
-                return redirect('details_track', track_id=track_id)
+                return redirect('details_track', race_id=race_id)
 
             # check if user exists
             if user is None:
                 return render(request, 'details_track.html')
 
-            bet = Bet(money=money, track=track, driver=driver, user=user)
+            bet = Bet(money=money, race=race, driver=driver, user=user)
             bet.save()
 
-        return redirect('details_track', track_id=track_id)
+        return redirect('details_track', race_id=race_id)
 
 def register(request):
     if request.method == 'POST':
@@ -111,6 +113,14 @@ def manage(request):
     if add_race_error_message:
         del request.session['add_race_error_message']
 
+    add_track_error_message = request.session.get('add_track_error_message')
+    if add_track_error_message:
+        del request.session['add_track_error_message']
+
+    remove_race_error_message = request.session.get('remove_race_error_message')
+    if remove_race_error_message:
+        del request.session['remove_race_error_message']
+
     remove_driver_error_message = request.session.get('remove_driver_error_message')
     if remove_driver_error_message:
         del request.session['remove_driver_error_message']
@@ -119,19 +129,15 @@ def manage(request):
     if remove_track_error_message:
         del request.session['remove_track_error_message']
 
-    track_drivers = TrackDriver.objects.all()
-
-    races = defaultdict(list)
-    for race in track_drivers:
-        races[race.track].append(race.driver)
-    races.default_factory = None
-
+    races = Race.objects.all()
     tracks = Track.objects.all()
     drivers = Driver.objects.all()
     form_add_driver = AddDriverForm()
     form_add_track = AddTrackForm()
     context = {
         'add_race_error_message': add_race_error_message,
+        'add_track_error_message': add_track_error_message,
+        'remove_race_error_message': remove_race_error_message,
         'remove_driver_error_message': remove_driver_error_message,
         'remove_track_error_message': remove_track_error_message,
         'races': races,
@@ -151,25 +157,37 @@ def add_race(request):
 
     if request.method == 'POST':
         track_id = request.POST.get("track")
+        event = request.POST.get("event")
+        multiplier = request.POST.get("multiplier")
 
         if track_id == '0':
             request.session['add_race_error_message'] = "You did not choose a track!"
             return redirect('manage')
 
+        if not event:
+            request.session['add_race_error_message'] = "Please enter the name of the event."
+            return redirect('manage')
+
         # check if there's already a race with this track.
-        trackdrivers = TrackDriver.objects.filter(track_id=track_id)
-        if trackdrivers.count() > 0:
+        races = Race.objects.filter(track_id=track_id)
+        if races.count() > 0:
             request.session['add_race_error_message'] = "There's already a race going on for this track!"
             return redirect('manage')
 
         track = Track.objects.get(id=track_id)
         driver_ids = request.POST.getlist('drivers')
 
+        if len(driver_ids) < 2:
+            request.session['add_race_error_message'] = "You need atleast 2 drivers for a race."
+            return redirect('manage')
+
+        race = Race(track=track, event=event, multiplier=multiplier)
+        race.save()
+
         for driver_id in driver_ids:
             driver = Driver.objects.get(id=driver_id)
-            trackDriver = TrackDriver(track=track, driver=driver)
-            trackDriver.save()
-
+            race_driver = RaceDriver(race=race, driver=driver)
+            race_driver.save()
     return redirect('manage')
 
 def add_driver(request):
@@ -201,11 +219,33 @@ def add_track(request):
         form = AddTrackForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
-            event = form.cleaned_data['event']
+
+            if Track.objects.filter(name=name):
+                request.session['add_track_error_message'] = "A track with this name already exists!"
+                return redirect('manage')
+
             image = form.cleaned_data['image']
 
-            track = Track(name=name, event=event, image=image)
+            track = Track(name=name, image=image)
             track.save()
+    return redirect('manage')
+
+def remove_race(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not user.is_staff:
+        return redirect('races')
+
+    if request.method == 'POST':
+        race_id = request.POST.get("race_to_remove")
+        if race_id is None:
+            request.session['remove_race_error_message'] = "Please choose a race."
+            return redirect('manage')
+
+        race = Race.objects.get(id=race_id)
+        race.delete()
+
     return redirect('manage')
 
 def remove_driver(request):

@@ -11,16 +11,16 @@
     </section>
 <div class="taskContainer" align="center">
     <div class="row" id="targetRow" align="center">
-{% for track in tracks %}
+{% for race in races %}
 
       <div class="col-sm-4">
         <div class="borderspace">
             <div class="top-tracks">
-                <p width="100%">{{ track.event }}, {{ track.name }}</p>
+                <p width="100%">{{ race.track }}, {{ race.event }}</p>
             </div>
             <div class="thumbnail">
-                <a href="details_track/{{ track.id }}">
-                    <img src="{{ track.image }}" alt="Track image" style="width:100%">
+                <a href="details_track/{{ race.id }}">
+                    <img src="{{ race.track.image }}" alt="Track image" style="width:100%">
                 </a>
             </div>
         </div>

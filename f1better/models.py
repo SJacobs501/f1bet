@@ -3,11 +3,18 @@ from django.contrib.auth.models import User
 
 class Track(models.Model):
     name = models.CharField(max_length=250)
-    event = models.CharField(max_length=250)
-    image = models.CharField(max_length=1000)
+    image = models.CharField(max_length=1000, default='https://i.imgur.com/xrM0pYH.png')
 
     def __str__(self):
-        return '{} {}'.format(self.name, self.event)
+        return '{}'.format(self.name)
+
+class Race(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    event = models.CharField(max_length=250)
+    multiplier = models.DecimalField(decimal_places=1, max_digits=6)
+
+    def __str__(self):
+        return '{} {} ({}x)'.format(self.track, self.event, self.multiplier)
 
 class Driver(models.Model):
     first_name = models.CharField(max_length=250)
@@ -16,20 +23,20 @@ class Driver(models.Model):
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
-# Matches tracks and drivers
-class TrackDriver(models.Model):
-    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+# Matches races and drivers
+class RaceDriver(models.Model):
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} {}'.format(self.track, self.driver)
+        return '{} {}'.format(self.race, self.driver)
 
 class Bet(models.Model):
     # is a bet finished? (meaning we know the result)
     finished = models.BooleanField(default=False)
     money = models.DecimalField(decimal_places=2, max_digits=8)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
-    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    race = models.ForeignKey(Race, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -37,5 +44,5 @@ class Bet(models.Model):
 
 #todo: make use of this
 class UserBalance(models.Model):
-    balance = models.IntegerField()
+    balance = models.DecimalField(decimal_places=2, max_digits=8)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

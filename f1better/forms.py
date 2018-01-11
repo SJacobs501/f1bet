@@ -17,12 +17,7 @@ class AddTrackForm(forms.Form):
         'placeholder': 'Track name'
      }))
 
-    event = forms.CharField(max_length=250, label='', widget=forms.TextInput(attrs={
-        'class': 'form-control',
-        'placeholder': 'Event name'
-    }))
-
-    image = forms.CharField(max_length=1000, label='', widget=forms.TextInput(attrs={
+    image = forms.CharField(max_length=1000, label='', required=False, widget=forms.TextInput(attrs={
         'class': 'form-control',
         'placeholder': 'Image URL'
     }))

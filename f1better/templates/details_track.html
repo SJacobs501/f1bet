@@ -6,9 +6,9 @@
 
 <main role="main">
     <section id="toptext" class="jumbotron text-center ">
-        <h1 class="jumbotron-heading">{{ track.event }}, {{ track.name }}</h1>
+        <h1 class="jumbotron-heading">{{ race.event }}, {{ race.track }}</h1>
         <div class="thumbnail">
-            <img src="{{ track.image }}" alt="Lights" style="width:35%">
+            <img src="{{ race.track.image }}" alt="Lights" style="width:35%">
         </div>
     </section>
 
@@ -22,7 +22,7 @@
       <p><strong>{{ error_message }}</strong></p>
     {% endif %}
 
-    <form action="{% url 'make_bet' track.id %}" method="post">
+    <form action="{% url 'make_bet' race.id %}" method="post">
       {% csrf_token %}
 
       <div class="input-group" style="width:60%;margin-left:20%; margin-right:10%">

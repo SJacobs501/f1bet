@@ -9,9 +9,9 @@ urlpatterns = [
     path('help', views.help, name='help'),
     path('about_us', views.about_us, name='about_us'),
 
-    path('details_track/<int:track_id>', views.details_track, name='details_track'),
+    path('details_track/<int:race_id>', views.details_track, name='details_track'),
 
-    path('make_bet/<int:track_id>', views.make_bet, name='make_bet'),
+    path('make_bet/<int:race_id>', views.make_bet, name='make_bet'),
 
     path('register', views.register, name='register'),
 
@@ -24,6 +24,7 @@ urlpatterns = [
     path('add_race', views.add_race, name='add_race'),
     path('add_driver', views.add_driver, name='add_driver'),
     path('add_track', views.add_track, name='add_track'),
+    path('remove_race', views.remove_race, name='remove_race'),
     path('remove_driver', views.remove_driver, name='remove_driver'),
     path('remove_track', views.remove_track, name='remove_track'),
 ]
