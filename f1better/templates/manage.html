@@ -23,10 +23,10 @@
                         <br>
                     {% endfor %}
 
-                    {% if message %}
+                    {% if add_race_error_message %}
                     <div class="alert alert-danger">
                         <a class="close" href="#" data-dismiss="alert"></a>
-                        {{ message }}
+                        {{ add_race_error_message }}
                     </div>
                     {% endif %}
 
@@ -122,6 +122,13 @@
                     <h1 class="jumbotron-heading">Remove a driver</h1>
                     <br>
 
+                    {% if remove_driver_error_message %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert"></a>
+                        {{ remove_driver_error_message }}
+                    </div>
+                    {% endif %}
+
                     <form action="remove_driver" method="post">
                         {% csrf_token %}
                         <select class="custom-select my-1 mr-sm-2" name="driver_to_remove">
@@ -143,6 +150,13 @@
               <div class="container jumbotron">
                   <h1 class="jumbotron-heading">Remove a track</h1>
                   <br>
+
+                  {% if remove_track_error_message %}
+                  <div class="alert alert-danger">
+                      <a class="close" href="#" data-dismiss="alert"></a>
+                      {{ remove_track_error_message }}
+                  </div>
+                  {% endif %}
 
                   <form action="remove_track" method="post">
                       {% csrf_token %}

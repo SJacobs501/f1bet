@@ -107,9 +107,17 @@ def manage(request):
     if not user.is_staff:
         return redirect('races')
 
-    message = request.session.get('add_race_error_message')
-    if message:
+    add_race_error_message = request.session.get('add_race_error_message')
+    if add_race_error_message:
         del request.session['add_race_error_message']
+
+    remove_driver_error_message = request.session.get('remove_driver_error_message')
+    if remove_driver_error_message:
+        del request.session['remove_driver_error_message']
+
+    remove_track_error_message = request.session.get('remove_track_error_message')
+    if remove_track_error_message:
+        del request.session['remove_track_error_message']
 
     track_drivers = TrackDriver.objects.all()
 
@@ -123,7 +131,9 @@ def manage(request):
     form_add_driver = AddDriverForm()
     form_add_track = AddTrackForm()
     context = {
-        'message': message,
+        'add_race_error_message': add_race_error_message,
+        'remove_driver_error_message': remove_driver_error_message,
+        'remove_track_error_message': remove_track_error_message,
         'races': races,
         'tracks': tracks,
         'drivers': drivers,
@@ -208,6 +218,7 @@ def remove_driver(request):
     if request.method == 'POST':
         driver_id = request.POST.get("driver_to_remove")
         if driver_id is None:
+            request.session['remove_driver_error_message'] = "Please choose a driver."
             return redirect('manage')
         driver = Driver.objects.get(id=driver_id)
         driver.delete()
@@ -223,6 +234,7 @@ def remove_track(request):
     if request.method == 'POST':
         track_id = request.POST.get("track_to_remove")
         if track_id is None:
+            request.session['remove_track_error_message'] = "Please choose a track."
             return redirect('manage')
         track = Track.objects.get(id=track_id)
         track.delete()
