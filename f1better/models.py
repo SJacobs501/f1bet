@@ -33,7 +33,7 @@ class RaceDriver(models.Model):
 
 class Bet(models.Model):
     # is a bet finished? (meaning we know the result)
-    finished = models.BooleanField(default=False)
+    ended = models.BooleanField(default=False)
     money = models.DecimalField(decimal_places=2, max_digits=8)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
@@ -41,6 +41,9 @@ class Bet(models.Model):
 
     def __str__(self):
         return '{} bet ${} on {}'.format(self.user, self.money, self.driver)
+
+    def my_bets(self):
+        return '{} dollar on {} ({}, {})'.format(self.money, self.driver, self.race.track, self.race.event)
 
 #todo: make use of this
 class UserBalance(models.Model):

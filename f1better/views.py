@@ -7,6 +7,7 @@ from django.contrib.auth import logout as django_logout
 from django.contrib import messages
 from .forms import AddDriverForm, AddTrackForm
 from collections import defaultdict
+from decimal import Decimal
 
 # Create your views here.
 def races(request):
@@ -43,10 +44,24 @@ def details_track(request, race_id):
 # get balance of user
 def get_balance(user):
     try:
-        balance = UserBalance.objects.get(user=user)
+        balance = UserBalance.objects.get(user=user).balance
     except UserBalance.DoesNotExist:
         balance = 0
     return balance
+
+# usage: eg change_balance(user, -5) removes 5$.
+# change_balance(user, 5) adds 5$.
+def change_balance(user, money):
+    try:
+        user_balance = UserBalance.objects.get(user=user)
+        current_balance = user_balance.balance
+        new_balance = current_balance + money
+        user_balance.balance = new_balance
+        user_balance.save()
+
+    except UserBalance.DoesNotExist:
+        new_user_balance = UserBalance(user=user, balance=money)
+        new_user_balance.save()
 
 def make_bet(request, race_id):
     # if not logged in, go to login page.
@@ -66,7 +81,7 @@ def make_bet(request, race_id):
                 return redirect('details_track', race_id=race_id)
 
             try:
-                money_int = float(money)
+                money_number = Decimal(float(money))
             except ValueError:
                 request.session['bet_error_message'] = "You did not enter a valid number!"
                 return redirect('details_track', race_id=race_id)
@@ -77,17 +92,18 @@ def make_bet(request, race_id):
 
             #check if balance
             balance = get_balance(user)
-            if money_int > balance:
+            if money_number > balance:
                 request.session['bet_error_message'] = "You do not have enough balance."
                 return redirect('details_track', race_id=race_id)
 
-            elif money_int == 0:
+            elif money_number == 0:
                 request.session['bet_error_message'] = "You cannot bet 0$."
                 return redirect('details_track', race_id=race_id)
 
             bet = Bet(money=money, race=race, driver=driver, user=user)
             bet.save()
 
+            change_balance(user, -money_number)
         return redirect('details_track', race_id=race_id)
 
 def register(request):
@@ -312,3 +328,19 @@ def remove_track(request):
         track = Track.objects.get(id=track_id)
         track.delete()
     return redirect('manage')
+
+def account(request):
+    user = request.user
+    ongoing_bets = Bet.objects.filter(user=user, ended=False)
+    past_bets = Bet.objects.filter(user=user, ended=True)
+    context = {
+        'user': user,
+        'balance': get_balance(user),
+        'ongoing_bets': ongoing_bets,
+        'past_bets': past_bets,
+    }
+    return render(request, 'account.html', context)
+
+def add_balance(request):
+    change_balance(request.user, 20)
+    return redirect('account')

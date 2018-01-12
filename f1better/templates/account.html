@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<main role="main">
+    <section id="toptext" class="jumbotron text-center ">
+        <div class="container">
+            <h1 class="jumbotron-heading">Account details</h1>
+            <h5> logged in as: </h5> Name: {{ user }}
+            <br> Bank: ###
+        </div>
+    </section>
+    <div class="row" id="targetRow" align="center">
+
+        <div class="col-6">
+            <h5> Balance: {{ balance }}</h5>
+            <a class="btn btn-primary" href="{% url 'add_balance' %}" type="submit">Add balance</a>
+        </div>
+
+        <div class="col-6">
+            <h5> My ongoing bets: </h5>
+            {% if not ongoing_bets %}
+                <p>You have no ongoing bets.</p>
+            {% else %}
+                {% for bet in ongoing_bets %}
+                    <p>{{ bet.my_bets }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-6">
+        </div>
+        <div class="col-6">
+            <br>
+            <h5> My past bets: </h5>
+            {% if not past_bets %}
+                <p>You have no past bets.</p>
+            {% else %}
+                {% for bet in past_bets %}
+                    <p>{{ bet.my_bets }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+{% endblock content %}

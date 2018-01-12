@@ -31,7 +31,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'about_us' %}">About us</a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account' %}">Account</a>
+                </li>
                 {% if user.is_authenticated and user.is_staff %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'manage' %}">Manage</a>

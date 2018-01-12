@@ -27,4 +27,7 @@ urlpatterns = [
     path('remove_race', views.remove_race, name='remove_race'),
     path('remove_driver', views.remove_driver, name='remove_driver'),
     path('remove_track', views.remove_track, name='remove_track'),
+
+    path('account', views.account, name='account'),
+    path('add_balance', views.add_balance, name='add_balance'),
 ]
