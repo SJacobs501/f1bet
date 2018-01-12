@@ -43,6 +43,8 @@
 
                         <input type="text" name="event" class="form-control" placeholder="Event name">
                         <input type="number" name="multiplier" class="form-control" step="0.1" value="1">
+                        <input type="date" name="end_date" class="form-control">
+
                         <br>
                         <br>
                         <h6>Select drivers for race</h6>
@@ -68,6 +70,9 @@
                     <br>
                 </div>
             </div>
+            <br>
+
+
             <br>
             <div class="borderline">
                 <div class="container jumbotron">
@@ -143,9 +148,72 @@
             </div>
             <br>
             <hr />
+
+            <br>
+            <br>
+
+            <div class="borderline">
+                <div class="container jumbotron">
+                    <h1 class="jumbotron-heading">End betting for race</h1>
+
+                    <b>Ongoing races:</b>
+                    <br>
+
+                    {% if not races %}
+                    There are no races at the moment.
+                    <br>
+                    {% endif %}
+
+                    {% if ongoing_races %}
+                        {% for race in ongoing_races %}
+                            {{ race }}{% if not forloop.last %},{% endif %}
+                            <br>
+                        {% endfor %}
+                    {% else %}
+                        There are no ongoing races.
+                        <br>
+                    {% endif %}
+                    <br>
+
+                    {% if end_bet_error_message %}
+                    <div class="alert alert-danger">
+                        <a class="close" href="#" data-dismiss="alert"></a>
+                        {{ end_bet_error_message }}
+                    </div>
+                    {% endif %}
+
+                    <form action="end_bet" method="post">
+                    {% csrf_token %}
+                    <select class="custom-select my-1 mr-sm-2" name="race">
+                          <option value="0" selected>Choose race</option>
+
+                          {% for race in races %}
+                            <option value="{{ race.id }}">{{ race }}</option>
+                          {% endfor %}
+
+                      </select>
+
+                      <select class="custom-select my-1 mr-sm-2" name="driver">
+                          <option value="" disabled selected>Choose the winning driver</option>
+                          {% for driver in drivers %}
+                          <option value="{{ driver.id }}">{{ driver }}</option>
+                          {% endfor %}
+                      </select>
+                    <br><br>
+                    <input type="submit" value="Submit" class="btn btn-danger" />
+
+                    </form>
+
+                </div>
+            </div>
+
+            <br>
+
             <div class="borderline">
                 <div class="container jumbotron jumbohelp">
                     <h1 class="jumbotron-heading">Remove a race</h1>
+                     (related bets will be cancelled!)
+                    <br>
                     <br>
 
                     {% if remove_race_error_message %}
@@ -171,6 +239,7 @@
                 </div>
                 <br>
             </div>
+
             <div class="borderline">
                 <div class="container jumbotron jumbohelp">
                     <h1 class="jumbotron-heading">Remove a driver</h1>

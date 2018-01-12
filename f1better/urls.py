@@ -30,4 +30,6 @@ urlpatterns = [
 
     path('account', views.account, name='account'),
     path('add_balance', views.add_balance, name='add_balance'),
+
+    path('end_bet', views.end_bet, name='end_bet'),
 ]

@@ -11,7 +11,7 @@ from decimal import Decimal
 
 # Create your views here.
 def races(request):
-    races = Race.objects.all()
+    races = Race.objects.filter(winner=None)
     context = {'races': races}
     return render(request, "races.html", context)
 
@@ -176,7 +176,12 @@ def manage(request):
     if remove_track_error_message:
         del request.session['remove_track_error_message']
 
+    end_bet_error_message = request.session.get('end_bet_error_message')
+    if end_bet_error_message:
+        del request.session['end_bet_error_message']
+
     races = Race.objects.all()
+    ongoing_races = Race.objects.filter(winner=None)
     tracks = Track.objects.all()
     drivers = Driver.objects.all()
     form_add_driver = AddDriverForm()
@@ -187,7 +192,9 @@ def manage(request):
         'remove_race_error_message': remove_race_error_message,
         'remove_driver_error_message': remove_driver_error_message,
         'remove_track_error_message': remove_track_error_message,
+        'end_bet_error_message': end_bet_error_message,
         'races': races,
+        'ongoing_races': ongoing_races,
         'tracks': tracks,
         'drivers': drivers,
         'form_add_driver': form_add_driver,
@@ -206,6 +213,7 @@ def add_race(request):
         track_id = request.POST.get("track")
         event = request.POST.get("event")
         multiplier = request.POST.get("multiplier")
+        end_date = request.POST.get("end_date")
 
         if track_id == '0':
             request.session['add_race_error_message'] = "You did not choose a track!"
@@ -221,6 +229,11 @@ def add_race(request):
             request.session['add_race_error_message'] = "There's already a race going on for this track!"
             return redirect('manage')
 
+        # check if date is valid.
+        if not end_date:
+            request.session['add_race_error_message'] = "Please enter an end date!"
+            return redirect('manage')
+
         track = Track.objects.get(id=track_id)
         driver_ids = request.POST.getlist('drivers')
 
@@ -228,7 +241,7 @@ def add_race(request):
             request.session['add_race_error_message'] = "You need atleast 2 drivers for a race."
             return redirect('manage')
 
-        race = Race(track=track, event=event, multiplier=multiplier)
+        race = Race(track=track, event=event, multiplier=multiplier, end_date=end_date)
         race.save()
 
         for driver_id in driver_ids:
@@ -344,3 +357,28 @@ def account(request):
 def add_balance(request):
     change_balance(request.user, 20)
     return redirect('account')
+
+def end_bet(request):
+    user = request.user
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if not user.is_staff:
+        return redirect('races')
+
+    if request.method == 'POST':
+        race_id = request.POST.get("race")
+        driver_id = request.POST.get("driver")
+
+        if race_id is None:
+            request.session['end_bet_error_message'] = "Please choose a race."
+            return redirect('manage')
+
+        if driver_id is None:
+            request.session['end_bet_error_message'] = "Please choose a driver."
+            return redirect('manage')
+
+        race = Race.objects.get(id=race_id)
+        driver = Driver.objects.get(id=driver_id)
+        race.winner = driver
+        race.save()
+    return redirect('manage')

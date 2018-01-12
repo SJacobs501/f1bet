@@ -17,11 +17,13 @@
         <div class="borderspace">
             <div class="top-tracks">
                 <p width="100%">{{ race.track }}, {{ race.event }}</p>
+
             </div>
             <div class="thumbnail">
                 <a href="details_track/{{ race.id }}">
                     <img src="{{ race.track.image }}" alt="Track image" style="width:100%">
                 </a>
+                <h6 width="100%">Ends on {{ race.end_date }}</h6>
             </div>
         </div>
         <div class="spacer"></div>

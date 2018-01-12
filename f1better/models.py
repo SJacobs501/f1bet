@@ -8,20 +8,22 @@ class Track(models.Model):
     def __str__(self):
         return '{}'.format(self.name)
 
-class Race(models.Model):
-    track = models.ForeignKey(Track, on_delete=models.CASCADE)
-    event = models.CharField(max_length=250)
-    multiplier = models.DecimalField(decimal_places=1, max_digits=6)
-
-    def __str__(self):
-        return '{} {} ({}x)'.format(self.track, self.event, self.multiplier)
-
 class Driver(models.Model):
     first_name = models.CharField(max_length=250)
     last_name = models.CharField(max_length=250)
 
     def __str__(self):
         return '{} {}'.format(self.first_name, self.last_name)
+
+class Race(models.Model):
+    track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    event = models.CharField(max_length=250)
+    multiplier = models.DecimalField(decimal_places=1, max_digits=6)
+    end_date = models.DateField()
+    winner = models.ForeignKey(Driver, blank=True, null=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '{} {} ({}x)'.format(self.track, self.event, self.multiplier)
 
 # Matches races and drivers
 class RaceDriver(models.Model):
