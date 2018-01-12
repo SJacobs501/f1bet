@@ -187,7 +187,7 @@
                     <select class="custom-select my-1 mr-sm-2" name="race">
                           <option value="0" selected>Choose race</option>
 
-                          {% for race in races %}
+                          {% for race in ongoing_races %}
                             <option value="{{ race.id }}">{{ race }}</option>
                           {% endfor %}
 

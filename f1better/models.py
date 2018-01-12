@@ -23,7 +23,11 @@ class Race(models.Model):
     winner = models.ForeignKey(Driver, blank=True, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '{} {} ({}x)'.format(self.track, self.event, self.multiplier)
+        if self.winner is None:
+            activity = "ACTIVE"
+        else:
+            activity = "ENDED"
+        return '{} {}, Date: {}, Multiplier {}, {}'.format(self.track, self.event, self.end_date, self.multiplier, activity)
 
 # Matches races and drivers
 class RaceDriver(models.Model):
@@ -34,12 +38,16 @@ class RaceDriver(models.Model):
         return '{} {}'.format(self.race, self.driver)
 
 class Bet(models.Model):
-    # is a bet finished? (meaning we know the result)
-    ended = models.BooleanField(default=False)
     money = models.DecimalField(decimal_places=2, max_digits=8)
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def reward(self):
+        return self.race.multiplier * self.money
+
+    def is_win(self):
+        return self.race.winner == self.driver
 
     def __str__(self):
         return '{} bet ${} on {}'.format(self.user, self.money, self.driver)

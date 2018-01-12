@@ -36,7 +36,11 @@
                 <p>You have no past bets.</p>
             {% else %}
                 {% for bet in past_bets %}
+                    {% if bet.is_win %}
+                    <p>{{ bet.my_bets }} - WON: {{ bet.reward }}$</p>
+                    {% else %}
                     <p>{{ bet.my_bets }}</p>
+                    {% endif %}
                 {% endfor %}
             {% endif %}
         </div>

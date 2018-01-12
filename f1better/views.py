@@ -18,6 +18,9 @@ def races(request):
 def details_track(request, race_id):
     race = Race.objects.get(id=race_id)
 
+    if race.winner:
+        return redirect('races')
+
     # Select driver_ids from track_drivers by track id.
     race_drivers = RaceDriver.objects.filter(race=race).values('driver')
 
@@ -224,7 +227,7 @@ def add_race(request):
             return redirect('manage')
 
         # check if there's already a race with this track.
-        races = Race.objects.filter(track_id=track_id)
+        races = Race.objects.filter(track_id=track_id, winner=None)
         if races.count() > 0:
             request.session['add_race_error_message'] = "There's already a race going on for this track!"
             return redirect('manage')
@@ -344,13 +347,16 @@ def remove_track(request):
 
 def account(request):
     user = request.user
-    ongoing_bets = Bet.objects.filter(user=user, ended=False)
-    past_bets = Bet.objects.filter(user=user, ended=True)
+    ongoing_races = Race.objects.filter(winner=None)
+    finished_races = Race.objects.all().exclude(winner=None)
+    ongoing_bets = Bet.objects.filter(user=user, race__in=ongoing_races)
+    past_bets = Bet.objects.filter(user=user, race__in=finished_races)
+
     context = {
         'user': user,
         'balance': get_balance(user),
         'ongoing_bets': ongoing_bets,
-        'past_bets': past_bets,
+        'past_bets': past_bets
     }
     return render(request, 'account.html', context)
 
@@ -381,4 +387,10 @@ def end_bet(request):
         driver = Driver.objects.get(id=driver_id)
         race.winner = driver
         race.save()
+
+        bets = Bet.objects.filter(race=race)
+        for bet in bets:
+            winnings = bet.money * race.multiplier
+            change_balance(bet.user, winnings)
+
     return redirect('manage')
