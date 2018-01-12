@@ -20,19 +20,33 @@ def details_track(request, race_id):
     # Select driver_ids from track_drivers by track id.
     race_drivers = RaceDriver.objects.filter(race=race).values('driver')
 
-    #track = race.track
-
     # Get the drivers for this track.
     drivers = Driver.objects.filter(id__in=[race_drivers])
 
     bets = Bet.objects.filter(race=race_id)
 
+    balance = get_balance(request.user)
+
+    bet_error_message = request.session.get('bet_error_message')
+    if bet_error_message:
+        del request.session['bet_error_message']
+
     context = {
         'race': race,
         'drivers': drivers,
-        'bets': bets
+        'bets': bets,
+        'balance': balance,
+        'bet_error_message': bet_error_message
     }
     return render(request, "details_track.html", context)
+
+# get balance of user
+def get_balance(user):
+    try:
+        balance = UserBalance.objects.get(user=user)
+    except UserBalance.DoesNotExist:
+        balance = 0
+    return balance
 
 def make_bet(request, race_id):
     # if not logged in, go to login page.
@@ -48,11 +62,28 @@ def make_bet(request, race_id):
                 driver = Driver.objects.get(id=driver_id)
                 user = request.user
             except:
+                request.session['bet_error_message'] = "Please select a driver to vote on."
+                return redirect('details_track', race_id=race_id)
+
+            try:
+                money_int = float(money)
+            except ValueError:
+                request.session['bet_error_message'] = "You did not enter a valid number!"
                 return redirect('details_track', race_id=race_id)
 
             # check if user exists
             if user is None:
-                return render(request, 'details_track.html')
+                return redirect('details_track', race_id=race_id)
+
+            #check if balance
+            balance = get_balance(user)
+            if money_int > balance:
+                request.session['bet_error_message'] = "You do not have enough balance."
+                return redirect('details_track', race_id=race_id)
+
+            elif money_int == 0:
+                request.session['bet_error_message'] = "You cannot bet 0$."
+                return redirect('details_track', race_id=race_id)
 
             bet = Bet(money=money, race=race, driver=driver, user=user)
             bet.save()

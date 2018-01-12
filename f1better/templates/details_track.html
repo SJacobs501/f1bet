@@ -26,10 +26,11 @@
       {% csrf_token %}
 
       <div class="input-group" style="width:60%;margin-left:20%; margin-right:10%">
-        <input type="text" class="form-control" aria-label="Amount" name="money">
+          <input type="number" name="multiplier" class="form-control" step="1.00" value="10" name="money">
+
         <div class="input-group-append">
           <span class="input-group-text">$</span>
-          <span class="input-group-text">Balance: 0.00</span>
+          <span class="input-group-text">Balance: {{ balance }}</span>
         </div>
       </div>
 
@@ -43,6 +44,14 @@
         </label>
       </div>
       {% endfor %}
+
+    {% if bet_error_message %}
+        <br>
+        <div class="alert alert-danger">
+        <a class="close" href="#" data-dismiss="alert"></a>
+        {{ bet_error_message }}
+        </div>
+    {% endif %}
 
       <br>
       <center><button type="submit" class="btn btn-success">Confirm</button></center>
