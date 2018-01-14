@@ -29,7 +29,10 @@ def details_track(request, race_id):
 
     bets = Bet.objects.filter(race=race_id)
 
-    balance = get_balance(request.user)
+    if request.user.is_authenticated:
+        balance = get_balance(request.user)
+    else:
+        balance = 0
 
     bet_error_message = request.session.get('bet_error_message')
     if bet_error_message:
