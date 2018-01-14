@@ -352,7 +352,7 @@ def account(request):
     user = request.user
     ongoing_races = Race.objects.filter(winner=None)
     finished_races = Race.objects.all().exclude(winner=None)
-    ongoing_bets = Bet.objects.filter(user=user, race__in=ongoing_races).order_by('end_date')
+    ongoing_bets = Bet.objects.filter(user=user, race__in=ongoing_races)
     past_bets = Bet.objects.filter(user=user, race__in=finished_races)
 
     context = {
