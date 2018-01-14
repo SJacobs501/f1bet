@@ -23,7 +23,7 @@
                         </div>
                         <div class="thumbnail">
                             <a href="details_track/{{ race.id }}">
-                                <img src="{{ race.track.image }}" alt="Track image" style="width:100%">
+                                <img src="{{ race.track.image }}" alt="Track image" style="width:100%" onMouseOver="this.style.width='98.5%'"  onMouseOut="this.style.width='100%'">
                             </a>
                             <h6 width="100%">Ends on {{ race.end_date }}, Multiplier {{ race.multiplier }}x</h6>
                         </div>
