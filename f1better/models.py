@@ -55,7 +55,6 @@ class Bet(models.Model):
     def my_bets(self):
         return '{} dollar on {} ({}, {})'.format(self.money, self.driver, self.race.track, self.race.event)
 
-#todo: make use of this
 class UserBalance(models.Model):
     balance = models.DecimalField(decimal_places=2, max_digits=8)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
