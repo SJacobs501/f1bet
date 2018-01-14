@@ -50,10 +50,10 @@ class Bet(models.Model):
         return self.race.winner == self.driver
 
     def __str__(self):
-        return '{} bet ${} on {}'.format(self.user, self.money, self.driver)
+        return '{} bet €{} on {}'.format(self.user, self.money, self.driver)
 
     def my_bets(self):
-        return '{} dollar on {} ({}, {})'.format(self.money, self.driver, self.race.track, self.race.event)
+        return '€{} on {} ({}, {})'.format(self.money, self.driver, self.race.track, self.race.event)
 
 class UserBalance(models.Model):
     balance = models.DecimalField(decimal_places=2, max_digits=8)

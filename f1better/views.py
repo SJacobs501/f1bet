@@ -11,7 +11,7 @@ from decimal import Decimal
 
 # Create your views here.
 def races(request):
-    races = Race.objects.filter(winner=None)
+    races = Race.objects.filter(winner=None).order_by('end_date')
     context = {'races': races}
     return render(request, "races.html", context)
 
@@ -291,7 +291,7 @@ def add_track(request):
                 return redirect('manage')
 
             image = form.cleaned_data['image']
-            
+
             track = Track(name=name)
             if image:
                 track.image=image
@@ -352,7 +352,7 @@ def account(request):
     user = request.user
     ongoing_races = Race.objects.filter(winner=None)
     finished_races = Race.objects.all().exclude(winner=None)
-    ongoing_bets = Bet.objects.filter(user=user, race__in=ongoing_races)
+    ongoing_bets = Bet.objects.filter(user=user, race__in=ongoing_races).order_by('end_date')
     past_bets = Bet.objects.filter(user=user, race__in=finished_races)
 
     context = {
