@@ -6,7 +6,7 @@
     <section id="toptext" class="jumbotron text-center ">
         <div class="container">
             <h1 class="jumbotron-heading">Make your F1 bets here!</h1>
-            <p>Current races to bet on: </p>
+            <p>Underneath here are all the upcoming races listed that you are able to place bets on, click on the track image of a race to proceed to . Before you can place a bet you must login first. </p>
         </div>
     </section>
 <div class="taskContainer" align="center">
@@ -15,17 +15,17 @@
         {% if races %}
                     {% for race in races %}
 
-                  <div class="col-sm-4">
-                    <div class="borderspace">
+                  <div class="col-sm-4" >
+                    <div class="borderspace racebox">
                         <div class="top-tracks">
                             <p width="100%">{{ race.track }}, {{ race.event }}</p>
 
                         </div>
                         <div class="thumbnail">
                             <a href="details_track/{{ race.id }}">
-                                <img src="{{ race.track.image }}" alt="Track image" style="width:100%" onMouseOver="this.style.width='98.5%'"  onMouseOut="this.style.width='100%'">
+                                <img src="{{ race.track.image }}" alt="Track image" style="width:100%" >
                             </a>
-                            <h6 width="100%">Ends on {{ race.end_date }}, Multiplier {{ race.multiplier }}x</h6>
+                            <h6 width="100%">Ends on {{ race.end_date }}, Odds: {{ race.multiplier }}</h6>
                         </div>
                     </div>
                     <div class="spacer"></div>

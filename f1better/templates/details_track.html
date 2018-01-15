@@ -16,7 +16,7 @@
         <div class="col-sm-6">
     <br>
             <h4 align="center">Make your bet!</h4>
-            <p align="center">There is a multiplier of: {{ race.multiplier }}</p>
+            <p align="center">The Odds on this race are: {{ race.multiplier }}</p>
 
 
     {% if error_message %}
@@ -30,8 +30,8 @@
           <input type="number" class="form-control" step="1.00" value="10" name="money">
 
         <div class="input-group-append">
-          <span class="input-group-text">$</span>
-          <span class="input-group-text">Balance: {{ balance }}</span>
+          <span class="input-group-text">€</span>
+          <span class="input-group-text">Current balance: {{ balance }}</span>
         </div>
       </div>
 
@@ -65,7 +65,7 @@
 
         <div class="col-sm-6">
     <br>
-            <p align="center">All bets</p>
+            <p align="center"><u>All current bets on this race:</u></p>
     <center>
     {% for bet in bets %}
       {{ bet }}
